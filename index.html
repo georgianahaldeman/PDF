@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Structuring Framework for Procedural Programs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                        <path d="M12 20L18 14L24 20L30 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 28L18 22L24 28L30 22" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#000000"/>
+                                <stop offset="100%" stop-color="#1a1a1a"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="header-text">
+                    <h1>Code Structuring Framework for Procedural Programs</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Pattern Guide Section -->
+        <div class="pattern-guide-section">
+            <!-- <h3 style="margin-bottom: 24px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Understanding Code Structuring Patterns</h3> -->
+            <p>In this paper, we formalize the structuring of procedural programs as a combination of features along three dimentions that drive the complexity (and difficulty) of the refactoring. This website offers an interactive tool to explore the proposed framework with examples for different feature combinations. First, here is a brief summary of the three dimentions of the framework and their corresponding features. For more details refer to the paper.</p>
+            <div class="pattern-guide-grid">
+                <div class="pattern-guide-item">
+                    <h4>Data Dependency</h4>
+                    <p>Describes how operations relate through data flow:</p>
+                    <ul>
+                        <li><strong>None:</strong> Operations work independently with no data sharing</li>
+                        <li><strong>Sequential:</strong> Output of one operation feeds into the next</li>
+                        <li><strong>Non-sequential:</strong> Operations process same data but produce separate outputs</li>
+                        <li><strong>Shared:</strong> Multiple operations need common computed values (like min/max)</li>
+                    </ul>
+                </div>
+                <div class="pattern-guide-item">
+                    <h4>Code Pattern</h4>
+                    <p>Describes the structural organization of code:</p>
+                    <ul>
+                        <li><strong>None:</strong> Single unified code block with no separation</li>
+                        <li><strong>Concatenation:</strong> Distinct operations placed one after another</li>
+                        <li><strong>Inclusion:</strong> One operation wraps or contains another</li>
+                        <li><strong>Interleaved:</strong> Operations merge or alternate within same structure</li>
+                    </ul>
+                </div>
+                <div class="pattern-guide-item">
+                    <h4>Repetition</h4>
+                    <p>Describes how similar logic appears in code:</p>
+                    <ul>
+                        <li><strong>None:</strong> Each operation is unique with no duplication</li>
+                        <li><strong>Identical:</strong> Exact same logic repeated multiple times</li>
+                        <li><strong>Variable Included:</strong> Similar logic with parameter variations</li>
+                        <li><strong>Variable Scaled:</strong> Same pattern applied at different scales/magnitudes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Section - Controls -->
+        <div class="controls-section">
+            <h2 style="margin-bottom: 32px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Move the sliders to select different features:</h2>
+            <div class="control-group">
+                <label for="data-dependency">
+                    Data Dependency
+                    <!-- <span class="info-icon" data-tooltip="data-dependency">ⓘ</span> -->
+                </label>
+                <div class="tooltip" id="tooltip-data-dependency">
+                    <strong>Data Dependency</strong> describes how operations relate to each other through data:
+                    <ul>
+                        <li><strong>None:</strong> Operations are independent</li>
+                        <li><strong>Sequential:</strong> Second operation depends on first's output</li>
+                        <li><strong>Non-sequential:</strong> Operations process same data independently</li>
+                        <li><strong>Shared:</strong> Multiple operations need the same computed values</li>
+                    </ul>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <input type="range" id="data-dependency" class="slider" min="0" max="3" step="1" value="0">
+                        <div class="slider-ticks">
+                            <span class="tick-label">None</span>
+                            <span class="tick-label">Sequential</span>
+                            <span class="tick-label">Non-sequential</span>
+                            <span class="tick-label">Shared</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="code-pattern">
+                    Code Pattern
+                    <!-- <span class="info-icon" data-tooltip="code-pattern">ⓘ</span> -->
+                </label>
+                <div class="tooltip" id="tooltip-code-pattern">
+                    <strong>Code Pattern</strong> describes how code blocks are organized:
+                    <ul>
+                        <li><strong>None:</strong> Single unified code block</li>
+                        <li><strong>Concatenation:</strong> Separate sequential operations</li>
+                        <li><strong>Inclusion:</strong> One operation contains or wraps another</li>
+                        <li><strong>Interleaved:</strong> Operations alternate or merge together</li>
+                    </ul>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <input type="range" id="code-pattern" class="slider" min="0" max="3" step="1" value="0">
+                        <div class="slider-ticks">
+                            <span class="tick-label">None</span>
+                            <span class="tick-label">Concatenation</span>
+                            <span class="tick-label">Inclusion</span>
+                            <span class="tick-label">Interleaved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="repetition">
+                    Repetition
+                    <!-- <span class="info-icon" data-tooltip="repetition">ⓘ</span> -->
+                </label>
+                <div class="tooltip" id="tooltip-repetition">
+                    <strong>Repetition</strong> describes how similar logic appears in code:
+                    <ul>
+                        <li><strong>None:</strong> No repeated patterns</li>
+                        <li><strong>Identical:</strong> Exact same logic repeated</li>
+                        <li><strong>Variable Included:</strong> Similar logic with minor variations</li>
+                        <li><strong>Variable Scaled:</strong> Same pattern at different scales/magnitudes</li>
+                    </ul>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <input type="range" id="repetition" class="slider" min="0" max="3" step="1" value="0">
+                        <div class="slider-ticks">
+                            <span class="tick-label">None</span>
+                            <span class="tick-label">Identical</span>
+                            <span class="tick-label">Variable Included</span>
+                            <span class="tick-label">Variable Scaled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="show-examples-btn">Show Example(s)</button>
+        </div>
+
+        <!-- Middle Section - Tabs and Code Examples -->
+        <div class="examples-section">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="count-min">Code Example</button>
+            </div>
+            
+            <div class="tab-content active" id="count-min">
+                <div class="code-comparison">
+                    <div class="code-block">
+                        <h4 id="unrefactored-title">Unrefactored</h4>
+                        <div class="code-container">
+                            <pre><code id="unrefactored-code">Loading...</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <h4 id="refactored-title">Refactored</h4>
+                        <div class="code-container">
+                            <pre><code id="refactored-code">Loading...</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Section - Description -->
+        <div class="description-section">
+            <h3 style="margin-bottom: 24px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Code Example Details</h3>
+            <div class="description-item">
+                <strong>Prompt:</strong> <span id="example-prompt">Loading...</span>
+            </div>
+            <div class="description-item">
+                <strong>Patterns:</strong> <span id="example-patterns">Loading...</span>
+            </div>
+            <div class="description-item">
+                <strong>Explanation:</strong> <span id="example-explanation">Loading...</span>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
