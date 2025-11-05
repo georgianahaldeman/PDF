@@ -40,7 +40,7 @@ async function loadCodeExamples() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         codeExamplesData = await response.json();
-        loadCurrentExample('count-min-appearances');
+        loadCurrentExample('rose');
     } catch (error) {
         console.error('Error loading code examples:', error);
         document.getElementById('unrefactored-code').textContent = 'Error loading code examples. Please check that code-examples.json exists.';
@@ -60,23 +60,23 @@ function loadCurrentExample(exampleKey) {
     const example = codeExamplesData.examples[exampleKey];
     
     // Update code blocks
-    document.getElementById('unrefactored-title').textContent = example.unrefactored.title;
-    document.getElementById('refactored-title').textContent = example.refactored.title;
+    // document.getElementById('unrefactored-title').textContent = example.unrefactored.title;
+    // document.getElementById('refactored-title').textContent = example.refactored.title;
     
     // Apply highlights to refactored code
-    let refactoredCode = example.refactored.code;
+    let refactoredCode = example.refactored;
     example.highlights.forEach(highlight => {
-        const highlightedCode = `<span class="${highlight.class}">${highlight.pattern}</span>`;
-        refactoredCode = refactoredCode.replace(highlight.pattern, highlightedCode);
+        const highlightedCode = `<span class="highlight-orange">${highlight}</span>`;
+        refactoredCode = refactoredCode.replace(highlight, highlightedCode);
     });
     
-    document.getElementById('unrefactored-code').textContent = example.unrefactored.code;
+    document.getElementById('unrefactored-code').textContent = example.unrefactored;
     document.getElementById('refactored-code').innerHTML = refactoredCode;
     
     // Update description
-    document.getElementById('example-prompt').textContent = example.prompt;
-    document.getElementById('example-patterns').textContent = example.patterns;
-    document.getElementById('example-explanation').textContent = example.explanation;
+    // document.getElementById('example-prompt').textContent = example.prompt;
+    // document.getElementById('example-patterns').textContent = example.patterns;
+    // document.getElementById('example-explanation').textContent = example.explanation;
 }
 
 function initializeSliders() {

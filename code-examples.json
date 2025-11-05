@@ -1,5 +1,18 @@
 {
   "examples": {
+    "rose": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "None",
+      "dataDependency": "None"
+    },
+    "title": "Rose",
+    "unrefactored": "print(\"Roses are red\")\nprint(\" @@@@\")\nprint(\"@@()@@\")\nprint(\" @@@@\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\"(((|)))\\n\")",
+    "refactored": "def draw_ascii_rose():    \n    print(\"Roses are red\")\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n\ndraw_ascii_rose()",
+    "highlights": [
+      "def draw_ascii_rose():    \n    print(\"Roses are red\")\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n"
+    ]
+  },
     "count-min-appearances": {
       "metadata": {
         "dataDependency": "Sequential",

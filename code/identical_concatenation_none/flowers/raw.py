@@ -1,0 +1,33 @@
+# Printing ASCII art of roses and carnations
+
+print("Long-stem Rose")
+print(" @@@@")
+print("@@()@@")
+print(" @@@@")
+print("   Y")
+print("  \\|/")
+print(" \\ | /")
+print("(((|)))\n")
+
+print("Short-stem Rose")
+print(" @@@@")
+print("@@()@@")
+print(" @@@@")
+print("   Y")
+print("  \\|/")
+print("(((|)))\n")
+
+print("Short-stem Carnation")
+print(" vVVVv")
+print(" (___)")
+print("   Y")
+print("  \\|/")
+print("(((|)))\n")
+
+print("Long-stem Carnation")
+print(" vVVVv")
+print(" (___)")
+print("   Y")
+print("  \\|/")
+print(" \\ | /")
+print("(((|)))")

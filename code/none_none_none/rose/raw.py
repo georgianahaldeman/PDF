@@ -1,0 +1,7 @@
+print("Roses are red")
+print(" @@@@")
+print("@@()@@")
+print(" @@@@")
+print("   Y")
+print("  \\|/")
+print("(((|)))\n")
