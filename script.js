@@ -23,6 +23,12 @@ const repetitionValues = {
     3: 'Variable Scaled'
 };
 
+const colorClasses = {
+    0: "highlight-blue",
+    1: "highlight-orange",
+    2: "highlight-green"
+};
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     loadCodeExamples();
@@ -43,11 +49,7 @@ async function loadCodeExamples() {
         loadCurrentExample('rose');
     } catch (error) {
         console.error('Error loading code examples:', error);
-        document.getElementById('unrefactored-code').textContent = 'Error loading code examples. Please check that code-examples.json exists.';
-        document.getElementById('refactored-code').textContent = 'Error loading code examples. Please check that code-examples.json exists.';
-        document.getElementById('example-prompt').textContent = 'Failed to load';
-        document.getElementById('example-patterns').textContent = 'Failed to load';
-        document.getElementById('example-explanation').textContent = error.message;
+        // display error 
     }
 }
 
@@ -69,9 +71,13 @@ function loadCurrentExample(exampleKey) {
         const highlightedCode = `<span class="highlight-orange">${highlight}</span>`;
         refactoredCode = refactoredCode.replace(highlight, highlightedCode);
     });
+
+    // document.getElementById('tab-button').textContent = example.title;
     
     document.getElementById('unrefactored-code').textContent = example.unrefactored;
     document.getElementById('refactored-code').innerHTML = refactoredCode;
+
+    
     
     // Update description
     // document.getElementById('example-prompt').textContent = example.prompt;
@@ -184,10 +190,10 @@ function findMatchingExamples(dataDep, codePattern, repetition) {
 
 // Display multiple matching examples by creating tabs
 function displayMatchingExamples(matches) {
-    const tabsContainer = document.querySelector('.tabs');
     const examplesSection = document.querySelector('.examples-section');
 
     // Clear existing tabs and content
+    const tabsContainer = document.querySelector('.tabs');
     tabsContainer.innerHTML = '';
 
     // Remove old tab content divs
@@ -196,7 +202,7 @@ function displayMatchingExamples(matches) {
 
     // Create tabs and content for each match
     matches.forEach((match, index) => {
-        const { key, example } = match;
+        const {key, example} = match;
         const isActive = index === 0;
 
         // Create tab button
@@ -213,16 +219,16 @@ function displayMatchingExamples(matches) {
         tabContent.innerHTML = `
             <div class="code-comparison">
                 <div class="code-block">
-                    <h4>${example.unrefactored.title}</h4>
+                    <h4>Raw</h4>
                     <div class="code-container">
-                        <pre><code>${escapeHtml(example.unrefactored.code)}</code></pre>
+                        <pre><code>${escapeHtml(example.unrefactored)}</code></pre>
                     </div>
                 </div>
 
                 <div class="code-block">
-                    <h4>${example.refactored.title}</h4>
+                    <h4>Decomposed</h4>
                     <div class="code-container">
-                        <pre><code>${applyHighlights(example.refactored.code, example.highlights)}</code></pre>
+                        <pre><code>${applyHighlights(example.refactored, example.highlights)}</code></pre>
                     </div>
                 </div>
             </div>
@@ -242,37 +248,35 @@ function displayMatchingExamples(matches) {
 
 // Display message when no examples match the criteria
 function displayNoMatches(dataDep, codePattern, repetition) {
-    const tabsContainer = document.querySelector('.tabs');
-    const examplesSection = document.querySelector('.examples-section');
-
     // Clear existing tabs
+    const tabsContainer = document.querySelector('.tabs');
     tabsContainer.innerHTML = '<div style="padding: 15px; text-align: center; color: #e74c3c; font-weight: 600;">No matching examples found</div>';
 
     // Remove old tab content
     const oldTabContents = document.querySelectorAll('.tab-content');
     oldTabContents.forEach(content => content.remove());
 
+
+
     // Create a message div
     const messageContent = document.createElement('div');
     messageContent.className = 'tab-content active';
     messageContent.innerHTML = `
         <div style="padding: 40px; text-align: center;">
-            <h3 style="color: #e74c3c; margin-bottom: 20px;">No Examples Found</h3>
+            <h3 style="color: #e74c3c; margin-bottom: 20px;">Oups ... </h3>
             <p style="color: #7f8c8d; margin-bottom: 10px;">No code examples match the following criteria:</p>
             <ul style="list-style: none; padding: 0; color: #34495e;">
                 <li><strong>Data Dependency:</strong> ${dataDep}</li>
                 <li><strong>Code Pattern:</strong> ${codePattern}</li>
                 <li><strong>Repetition:</strong> ${repetition}</li>
             </ul>
-            <p style="color: #7f8c8d; margin-top: 20px;">Try adjusting the slider values to find examples.</p>
+            <p style="color: #7f8c8d; margin-top: 20px;">Contact us for more information or to add code examples. Thank you!</p>
         </div>
     `;
-    examplesSection.appendChild(messageContent);
 
-    // Update description
-    document.getElementById('example-prompt').textContent = 'No matching examples';
-    document.getElementById('example-patterns').textContent = 'N/A';
-    document.getElementById('example-explanation').textContent = `Currently, there are no examples in the database that match the combination of ${dataDep} data dependency, ${codePattern} code pattern, and ${repetition} repetition. This combination may represent an advanced or uncommon refactoring pattern.`;
+    const examplesSection = document.querySelector('.examples-section');
+    examplesSection.removeChild(document.querySelector('.description-section'));
+    examplesSection.appendChild(messageContent);
 }
 
 // Helper function to escape HTML
@@ -290,12 +294,10 @@ function applyHighlights(code, highlights) {
         return highlightedCode;
     }
 
-    // Sort highlights by length (longest first) to avoid partial replacements
-    const sortedHighlights = [...highlights].sort((a, b) => b.pattern.length - a.pattern.length);
 
-    sortedHighlights.forEach(highlight => {
-        const escapedPattern = escapeHtml(highlight.pattern);
-        const highlightedPattern = `<span class="${highlight.class}">${escapedPattern}</span>`;
+    highlights.forEach((highlight,index) => {
+        const escapedPattern = escapeHtml(highlight);
+        const highlightedPattern = `<span class="${getValue(colorClasses,index%3)}">${escapedPattern}</span>`;
         highlightedCode = highlightedCode.replace(new RegExp(escapedPattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), highlightedPattern);
     });
 

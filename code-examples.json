@@ -1,6 +1,39 @@
 {
-  "examples": {
-    "rose": {
+  "examples":{
+  "garden_repetition": {
+    "metadata": {
+      "repetition": "Variable Scaled",
+      "codePattern": "Concatenation",
+      "dataDependency": "Shared"
+    },
+    "title": "Garden_repetition",
+    "unrefactored": "side_len = float(input(\"Enter length of side of garden (feet): \"))\nplant_spacing = float(input(\"Enter spacing between plants (feet): \"))\nsoil_depth = float(input(\"Enter depth of garden soil (feet): \"))\nfill_depth = float(input(\"Enter depth of fill (feet): \"))\n\npi = 3.14\ncircle_area = pi * (side_len/4)**2 \ncircle_plants = int(circle_area / plant_spacing ** 2)\nsemi_plants = int(circle_area / 2 / plant_spacing ** 2) \ntotal_plants = circle_plants + semi_plants * 4\nprint()\nprint(\"Plants for each semicircle garden:\", semi_plants)\nprint(\"Plants for the circle garden:\", circle_plants)\nprint(\"Total plants for garden:\", total_plants)\n\nfill_area = side_len**2 - circle_area * 3\ntotal_fill = fill_area/9 * fill_depth/3\nprint(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n\ncircle_soil = circle_area/9 * soil_depth/3\ntotal_soil = circle_soil * 3\nprint(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\nprint(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\nprint(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n",
+    "refactored": "def get_circle_area(side_len: float) -> float:\n    pi = 3.14\n    circle_area = pi * (side_len/4)**2 \n    return circle_area\n\ndef get_plants(area: float, plant_spacing:float) -> int:\n    plants = int(area / plant_spacing ** 2)\n    return plants\n\ndef get_garden_plants(side_len: float, plant_spacing:float) -> None:\n    circle_area = get_circle_area(side_len)\n    circle_plants = get_plants(circle_area, plant_spacing)\n    semi_plants = get_plants(circle_area / 2, plant_spacing) \n    total_plants = circle_plants + semi_plants * 4\n    print(\"Plants for each semicircle garden:\", semi_plants)\n    print(\"Plants for the circle garden:\", circle_plants)\n    print(\"Total plants for garden:\", total_plants)\n\ndef get_garden_fill(side_len: float, fill_depth: float) -> None:\n    fill_area = side_len**2 - get_circle_area(side_len) * 3\n    total_fill = fill_area/9 * fill_depth/3\n    print(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n\ndef get_garden_soil(side_len:float, soil_depth:float) -> None:\n    circle_soil = get_circle_area(side_len)/9 * soil_depth/3\n    total_soil = circle_soil * 3\n    print(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\n    print(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\n    print(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n\ndef main() -> None:\n    side_len = float(input(\"Enter length of side of garden (feet): \"))\n    plant_spacing = float(input(\"Enter spacing between plants (feet): \"))\n    soil_depth = float(input(\"Enter depth of garden soil (feet): \"))\n    fill_depth = float(input(\"Enter depth of fill (feet): \"))\n    print()\n    get_garden_plants(side_len, plant_spacing)\n    get_garden_soil(side_len,soil_depth)\n    get_garden_fill(side_len, fill_depth)\n\n# main()\n",
+    "highlights": [
+      "def get_circle_area(side_len: float) -> float:\n    pi = 3.14\n    circle_area = pi * (side_len/4)**2 \n    return circle_area\n",
+      "def get_garden_fill(side_len: float, fill_depth: float) -> None:\n    fill_area = side_len**2 - get_circle_area(side_len) * 3\n    total_fill = fill_area/9 * fill_depth/3\n    print(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n",
+      "def get_garden_plants(side_len: float, plant_spacing:float) -> None:\n    circle_area = get_circle_area(side_len)\n    circle_plants = get_plants(circle_area, plant_spacing)\n    semi_plants = get_plants(circle_area / 2, plant_spacing) \n    total_plants = circle_plants + semi_plants * 4\n    print(\"Plants for each semicircle garden:\", semi_plants)\n    print(\"Plants for the circle garden:\", circle_plants)\n    print(\"Total plants for garden:\", total_plants)\n",
+      "def get_garden_soil(side_len:float, soil_depth:float) -> None:\n    circle_soil = get_circle_area(side_len)/9 * soil_depth/3\n    total_soil = circle_soil * 3\n    print(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\n    print(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\n    print(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n",
+      "def get_plants(area: float, plant_spacing:float) -> int:\n    plants = int(area / plant_spacing ** 2)\n    return plants\n",
+      "def main() -> None:\n    side_len = float(input(\"Enter length of side of garden (feet): \"))\n    plant_spacing = float(input(\"Enter spacing between plants (feet): \"))\n    soil_depth = float(input(\"Enter depth of garden soil (feet): \"))\n    fill_depth = float(input(\"Enter depth of fill (feet): \"))\n    print()\n    get_garden_plants(side_len, plant_spacing)\n    get_garden_soil(side_len,soil_depth)\n    get_garden_fill(side_len, fill_depth)\n"
+    ]
+  },
+  "count_min_inclusion": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "Inclusion",
+      "dataDependency": "None"
+    },
+    "title": "Count_min_inclusion",
+    "unrefactored": "# Beginner-friendly Python code for the pseudocode\n\n# Step 1: Read numbers from the user\ninput_string = input(\"Enter numbers separated by spaces: \")\nnumbers_str = input_string.split()  # Split the input into a list of strings\nnumbers = []                        # Empty list to store integers\n\n# Convert each string to an integer\nfor num_str in numbers_str:\n    numbers.append(int(num_str))\n\n# Step 2: Assume the first number is the minimum\nminimum = numbers[0]+1\n\n# Step 3: Initialize the counter\ncounter = 0\n\n# Step 4: Find the minimum and count its occurrences at the same time\nfor num in numbers:\n    if num < minimum:\n        minimum = num\n        counter = 0  # Reset counter if a new minimum is found\n        for tmp in numbers:\n            if tmp == minimum:\n                counter += 1  # Count the minimum\n\n# Step 5: Display the result\nprint(\"The minimum value is:\", minimum)\nprint(\"It appears\", counter, \"time(s) in the list.\")\n",
+    "refactored": "# Function to read numbers from the user\ndef read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n\n# Function to find the minimum value in a list\ndef find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n\n# Function to count how many times the minimum appears\ndef count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n\n# Main program\n# numbers = read_numbers()\n# minimum_value = find_minimum(numbers)\n# minimum_count = count_minimum(numbers, minimum_value)\n\n# print(\"The minimum value is:\", minimum_value)\n# print(\"It appears\", minimum_count, \"time(s) in the list.\")",
+    "highlights": [
+      "def count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n",
+      "def find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n",
+      "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
+    ]
+  },
+  "rose": {
     "metadata": {
       "repetition": "None",
       "codePattern": "None",
@@ -13,447 +46,160 @@
       "def draw_ascii_rose():    \n    print(\"Roses are red\")\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n"
     ]
   },
-    "count-min-appearances": {
-      "metadata": {
-        "dataDependency": "Sequential",
-        "codePattern": "Concatenation",
-        "repetition": "None"
-      },
-      "title": "Count Min Appearances",
-      "prompt": "Given a list of N integers, output the number of appearances of the minimum.",
-      "patterns": "min, counting",
-      "explanation": "In this example, the two loops have been refactored into separate functions to improve readability and maintainability. The first function finds the minimum value, while the second counts occurrences of that minimum value.",
-      
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nmin = nums[0]\nfor num in nums:\n  if min > num:\n    min = num\ncounter = 0\nfor num in nums:\n  if min == num:\n    counter += 1\nreturn counter"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nmin = findmin(nums)\ncount = countmatches(nums, min)\nreturn count\n\ndef findmin(nums):\n  min = nums[0]\n  for num in nums:\n    if min > num:\n      min = num\n  return min\n\ndef countmatches(nums, val):\n  counter = 0\n  for num in nums:\n    if val == num:\n      counter += 1\n  return counter"
-      },
-      "highlights": [
-        {
-          "pattern": "min = findmin(nums)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "count = countmatches(nums, min)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "def findmin(nums):",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def countmatches(nums, val):",
-          "class": "highlight-orange"
-        }
-      ]
+  "garden_no_repetition": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "find-min-max": {
-      "title": "Find Min and Max",
-      "prompt": "Given a list of N integers, output both the minimum and maximum values.",
-      "patterns": "min, max, extremum",
-      "explanation": "This example demonstrates finding both minimum and maximum values in a single pass through the data, then refactoring into separate functions for better modularity.",
-      "metadata": {
-        "dataDependency": "None",
-        "codePattern": "Concatenation",
-        "repetition": "Identical"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nmin_val = nums[0]\nmax_val = nums[0]\nfor num in nums:\n  if min_val > num:\n    min_val = num\n  if max_val < num:\n    max_val = num\nreturn min_val, max_val"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nmin_val = findmin(nums)\nmax_val = findmax(nums)\nreturn min_val, max_val\n\ndef findmin(nums):\n  min_val = nums[0]\n  for num in nums:\n    if min_val > num:\n      min_val = num\n  return min_val\n\ndef findmax(nums):\n  max_val = nums[0]\n  for num in nums:\n    if max_val < num:\n      max_val = num\n  return max_val"
-      },
-      "highlights": [
-        {
-          "pattern": "min_val = findmin(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "max_val = findmax(nums)",
-          "class": "highlight-green"
-        },
-        {
-          "pattern": "def findmin(nums):",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def findmax(nums):",
-          "class": "highlight-green"
-        }
-      ]
+    "title": "Garden_no_repetition",
+    "unrefactored": "side_len = float(input(\"Enter length of side of garden (feet): \"))\nplant_spacing = float(input(\"Enter spacing between plants (feet): \"))\nsoil_depth = float(input(\"Enter depth of garden soil (feet): \"))\nfill_depth = float(input(\"Enter depth of fill (feet): \"))\n\npi = 3.14\ncircle_area = pi * (side_len/4)**2 \ncircle_plants = int(circle_area / plant_spacing ** 2)\nsemi_plants = int(circle_area / 2 / plant_spacing ** 2) \ntotal_plants = circle_plants + semi_plants * 4\nprint()\nprint(\"Plants for each semicircle garden:\", semi_plants)\nprint(\"Plants for the circle garden:\", circle_plants)\nprint(\"Total plants for garden:\", total_plants)\n\nfill_area = side_len**2 - circle_area * 3\ntotal_fill = fill_area/9 * fill_depth/3\nprint(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n\ncircle_soil = circle_area/9 * soil_depth/3\ntotal_soil = circle_soil * 3\nprint(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\nprint(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\nprint(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n",
+    "refactored": "def get_circle_area(side_len: float) -> float:\n    pi = 3.14\n    circle_area = pi * (side_len/4)**2 \n    return circle_area\n\ndef get_garden_plants(side_len: float, plant_spacing:float) -> None:\n    circle_area = get_circle_area(side_len)\n    circle_plants = int(circle_area / plant_spacing ** 2)\n    semi_plants = int(circle_area / 2 / plant_spacing ** 2) \n    total_plants = circle_plants + semi_plants * 4\n    print(\"Plants for each semicircle garden:\", semi_plants)\n    print(\"Plants for the circle garden:\", circle_plants)\n    print(\"Total plants for garden:\", total_plants)\n\ndef get_garden_fill(side_len: float, fill_depth: float) -> None:\n    fill_area = side_len**2 - get_circle_area(side_len) * 3\n    total_fill = fill_area/9 * fill_depth/3\n    print(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n\ndef get_garden_soil(side_len:float, soil_depth:float) -> None:\n    circle_soil = get_circle_area(side_len)/9 * soil_depth/3\n    total_soil = circle_soil * 3\n    print(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\n    print(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\n    print(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n\ndef main() -> None:\n    side_len = float(input(\"Enter length of side of garden (feet): \"))\n    plant_spacing = float(input(\"Enter spacing between plants (feet): \"))\n    soil_depth = float(input(\"Enter depth of garden soil (feet): \"))\n    fill_depth = float(input(\"Enter depth of fill (feet): \"))\n    print()\n    get_garden_plants(side_len, plant_spacing)\n    get_garden_soil(side_len,soil_depth)\n    get_garden_fill(side_len, fill_depth)\n\n# main()\n",
+    "highlights": [
+      "def get_circle_area(side_len: float) -> float:\n    pi = 3.14\n    circle_area = pi * (side_len/4)**2 \n    return circle_area\n",
+      "def get_garden_fill(side_len: float, fill_depth: float) -> None:\n    fill_area = side_len**2 - get_circle_area(side_len) * 3\n    total_fill = fill_area/9 * fill_depth/3\n    print(\"Total fill for the garden:\", round(total_fill, 1), \"cubic yards\")\n",
+      "def get_garden_plants(side_len: float, plant_spacing:float) -> None:\n    circle_area = get_circle_area(side_len)\n    circle_plants = int(circle_area / plant_spacing ** 2)\n    semi_plants = int(circle_area / 2 / plant_spacing ** 2) \n    total_plants = circle_plants + semi_plants * 4\n    print(\"Plants for each semicircle garden:\", semi_plants)\n    print(\"Plants for the circle garden:\", circle_plants)\n    print(\"Total plants for garden:\", total_plants)\n",
+      "def get_garden_soil(side_len:float, soil_depth:float) -> None:\n    circle_soil = get_circle_area(side_len)/9 * soil_depth/3\n    total_soil = circle_soil * 3\n    print(\"Soil for each semicircle garden:\", round(circle_soil/2, 1), \"cubic yards\")\n    print(\"Soil for the circle garden:\", round(circle_soil, 1), \"cubic yards\")\n    print(\"Total soil for the garden:\", round(total_soil, 1), \"cubic yards\")\n",
+      "def main() -> None:\n    side_len = float(input(\"Enter length of side of garden (feet): \"))\n    plant_spacing = float(input(\"Enter spacing between plants (feet): \"))\n    soil_depth = float(input(\"Enter depth of garden soil (feet): \"))\n    fill_depth = float(input(\"Enter depth of fill (feet): \"))\n    print()\n    get_garden_plants(side_len, plant_spacing)\n    get_garden_soil(side_len,soil_depth)\n    get_garden_fill(side_len, fill_depth)\n"
+    ]
+  },
+  "tower": {
+    "metadata": {
+      "repetition": "Variable Scaled",
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "sum-and-average": {
-      "title": "Sum and Average",
-      "prompt": "Given a list of N integers, calculate both the sum and average.",
-      "patterns": "accumulation, arithmetic",
-      "explanation": "This example shows two operations sharing the same data. Both sum and average need to process all elements, demonstrating shared data dependency.",
-      "metadata": {
-        "dataDependency": "Shared",
-        "codePattern": "Concatenation",
-        "repetition": "None"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\ntotal = 0\nfor num in nums:\n  total += num\naverage = total / len(nums)\nreturn total, average"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\ntotal = calculate_sum(nums)\naverage = calculate_average(nums)\nreturn total, average\n\ndef calculate_sum(nums):\n  total = 0\n  for num in nums:\n    total += num\n  return total\n\ndef calculate_average(nums):\n  return calculate_sum(nums) / len(nums)"
-      },
-      "highlights": [
-        {
-          "pattern": "total = calculate_sum(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "average = calculate_average(nums)",
-          "class": "highlight-green"
-        },
-        {
-          "pattern": "def calculate_sum(nums):",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def calculate_average(nums):",
-          "class": "highlight-green"
-        }
-      ]
+    "title": "Tower",
+    "unrefactored": "",
+    "refactored": "",
+    "highlights": []
+  },
+  "fish": {
+    "metadata": {
+      "repetition": "Variable Scaled",
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "filter-positive-negative": {
-      "title": "Filter Positive and Negative",
-      "prompt": "Given a list of N integers, separate them into positive and negative numbers.",
-      "patterns": "filtering, classification",
-      "explanation": "This demonstrates non-sequential data dependency where elements are categorized independently but results are collected separately.",
-      "metadata": {
-        "dataDependency": "Non-sequential",
-        "codePattern": "Inclusion",
-        "repetition": "None"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\npositive = []\nnegative = []\nfor num in nums:\n  if num > 0:\n    positive.append(num)\n  elif num < 0:\n    negative.append(num)\nreturn positive, negative"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\npositive = filter_positive(nums)\nnegative = filter_negative(nums)\nreturn positive, negative\n\ndef filter_positive(nums):\n  result = []\n  for num in nums:\n    if num > 0:\n      result.append(num)\n  return result\n\ndef filter_negative(nums):\n  result = []\n  for num in nums:\n    if num < 0:\n      result.append(num)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "positive = filter_positive(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "negative = filter_negative(nums)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "def filter_positive(nums):",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def filter_negative(nums):",
-          "class": "highlight-orange"
-        }
-      ]
+    "title": "Fish",
+    "unrefactored": "# ASCII Fish \n\ndef print_tail(size = 1):\n    print(3*\" \" + 3*\"v\")\n    print(4*\" \" + \"v\")\n\ndef print_body(size = 1):\n    print(3*\" \" + \"v\" + \"o\" + \"v\")\n    print(2*\" \" + \"v\" + 3*\"o\" + \"v\")\n    print(1*\" \" + \"v\" + 5*\"o\" + \"v\")\n    print(0*\" \" + \"v\" + 7*\"o\" + \"v\")\n\ndef print_head(size = 1):\n    print(1*\" \" + \"v\" + 2*\"o\" + 1*\" \" + 2*\"o\" + \"v\")\n    print(2*\" \" + \"v\" + 0*\"o\" + 3*\" \" + 0*\"o\" + \"v\")\n\nprint_tail()\nprint_body()\nprint_head()\n\n# Bigger ASCII Fish\n\ndef print_tail_big(size = 2):\n    print(4* \" \" + 5*\"v\")\n    print(5* \" \" + 3*\"v\")\n    print(6* \" \" + \"v\")\n\ndef print_body_big(size = 2):\n    print(5*\" \" + \"v\" + \"o\" + \"v\")\n    print(4*\" \" + \"v\" + 3*\"o\" + \"v\")\n    print(3*\" \" + \"v\" + 5*\"o\" + \"v\")\n    print(2*\" \" + \"v\" + 7*\"o\" + \"v\")\n    print(1*\" \" + \"v\" + 9*\"o\" + \"v\")\n    print(0*\" \" + \"v\" + 11*\"o\" + \"v\")\n\ndef print_head_big(size = 2):\n    print(1*\" \" + \"v\" + 4*\"o\" + 1*\" \" + 4*\"o\" + \"v\")\n    print(2*\" \" + \"v\" + 2*\"o\" + 3*\" \" + 2*\"o\" + \"v\")\n    print(3*\" \" + \"v\" + 0*\"o\" + 5*\" \" + 0*\"o\" + \"v\")\n\nprint_tail_big()\nprint_body_big()\nprint_head_big()\n\n\n\n# # ASCII Fish \n\n# print(\"   vvv\")\n# print(\"    v\")\n# print(\"   vov\")\n# print(\"  vooov\")\n# print(\" vooooov\")\n# print(\"vooooooov\") # size 1 -> 7 o's\n# print(\" voo oov\")\n# print(\"  v   v\")\n\n# # Bigger ASCII Fish\n\n# print(\"    vvvvv\")\n# print(\"     vvv\")\n# print(\"      v\")\n# print(\"     vov\")\n# print(\"    vooov\")\n# print(\"   vooooov\")\n# print(\"  vooooooov\")\n# print(\" vooooooooov\")\n# print(\"vooooooooooov\") # size 2 -> 10 o's\n# print(\" voooo oooov\")\n# print(\"  voo   oov\")\n# print(\"   v     v\")\n\n",
+    "refactored": "\ndef print_tail(size):\n    spaces_count = size+2\n    for v_count in range(2*size+1,0,-2):\n        print(spaces_count*\" \" + v_count*\"v\")\n        spaces_count += 1\n\ndef print_body(size):\n    spaces_count = 2*size+1\n    for o_count in range(1,4*(size+1),2):\n        print(spaces_count*\" \" + \"v\" +o_count* \"o\" + \"v\")\n        spaces_count -= 1\n\n\ndef print_head(size):\n    spaces_count = 1\n    middle_spaces = 1\n    for o_count in range(2*size,-1,-2):\n        print(spaces_count*\" \" + \"v\" + o_count*\"o\" + middle_spaces*\" \" + o_count*\"o\" + \"v\")\n        spaces_count += 1\n        middle_spaces += 2\n\ndef print_fish(size=1):\n    print_tail(size)\n    print_body(size)\n    print_head(size)\n\nprint_fish(1)\nprint_fish(2)",
+    "highlights": [
+      "def print_body(size):\n    spaces_count = 2*size+1\n    for o_count in range(1,4*(size+1),2):\n        print(spaces_count*\" \" + \"v\" +o_count* \"o\" + \"v\")\n        spaces_count -= 1\n",
+      "def print_fish(size=1):\n    print_tail(size)\n    print_body(size)\n    print_head(size)\n",
+      "def print_head(size):\n    spaces_count = 1\n    middle_spaces = 1\n    for o_count in range(2*size,-1,-2):\n        print(spaces_count*\" \" + \"v\" + o_count*\"o\" + middle_spaces*\" \" + o_count*\"o\" + \"v\")\n        spaces_count += 1\n        middle_spaces += 2\n",
+      "def print_tail(size):\n    spaces_count = size+2\n    for v_count in range(2*size+1,0,-2):\n        print(spaces_count*\" \" + v_count*\"v\")\n        spaces_count += 1\n"
+    ]
+  },
+  "cubes": {
+    "metadata": {
+      "repetition": "Variable Included",
+      "codePattern": "Concatenation"
     },
-    "find-all-occurrences": {
-      "title": "Find All Occurrences",
-      "prompt": "Given a list of N integers and a target value, find all indices where the target appears.",
-      "patterns": "searching, indexing",
-      "explanation": "This shows identical repetition where the same search logic is applied to find multiple occurrences.",
-      "metadata": {
-        "dataDependency": "None",
-        "codePattern": "Concatenation",
-        "repetition": "Identical"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums, target)\nindices = []\nfor i in range(len(nums)):\n  if nums[i] == target:\n    indices.append(i)\nreturn indices"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums, target)\nindices = find_indices(nums, target)\nreturn indices\n\ndef find_indices(nums, value):\n  result = []\n  for i in range(len(nums)):\n    if nums[i] == value:\n      result.append(i)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "indices = find_indices(nums, target)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def find_indices(nums, value):",
-          "class": "highlight-blue"
-        }
-      ]
+    "title": "Cubes",
+    "unrefactored": "cube_len = int(input(\"Cube length? \"))\nbox_w = int(input(\"Box width? \"))\nbox_h = int(input(\"Box height? \"))\nbox_l = int(input(\"Box length? \"))\n\nfit_w = box_w // cube_len\nfit_h = box_h // cube_len\nfit_l = box_l // cube_len\n\nprint(str(fit_w)+\" Rubik's cubes will fit width-wise.\")\nprint(str(fit_h)+\" Rubik's cubes will fit height-wise.\")\nprint(str(fit_l)+\" Rubik's cubes will fit length-wise.\")\n\nres = fit_w * fit_h * fit_l\nprint(str(res)+\" Rubik's cubes will fit in that container.\")",
+    "refactored": "def get_fit(small: int, side: str) -> int:\n    large = int(input(f\"Box {side}? \"))\n    fit = large // small\n    print(f\"{fit} Rubik's cubes will fit {side}-wise.\")\n    return fit\ndef main() -> None:\n    cube_len = int(input(\"Cube length? \"))\n    width = get_fit(cube_len, 'width')\n    height = get_fit(cube_len, 'height')\n    length = get_fit(cube_len, 'length')\n    fit = width * height * length\n    print(str(fit)+\" Rubik's cubes will fit in that container.\")\n# main()",
+    "highlights": [
+      "def get_fit(small: int, side: str) -> int:\n    large = int(input(f\"Box {side}? \"))\n    fit = large // small\n    print(f\"{fit} Rubik's cubes will fit {side}-wise.\")\n    return fit\n",
+      "def main() -> None:\n    cube_len = int(input(\"Cube length? \"))\n    width = get_fit(cube_len, 'width')\n    height = get_fit(cube_len, 'height')\n    length = get_fit(cube_len, 'length')\n    fit = width * height * length\n    print(str(fit)+\" Rubik's cubes will fit in that container.\")\n"
+    ]
+  },
+  "count_min_concatenated": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "None",
+      "dataDependency": "None"
     },
-    "validate-and-process": {
-      "title": "Validate and Process",
-      "prompt": "Given a list of N integers, validate they are all positive, then calculate their product.",
-      "patterns": "validation, transformation",
-      "explanation": "Sequential dependency where validation must complete before processing can begin. The second operation depends on the first's result.",
-      "metadata": {
-        "dataDependency": "Sequential",
-        "codePattern": "Inclusion",
-        "repetition": "None"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nvalid = True\nfor num in nums:\n  if num <= 0:\n    valid = False\n    break\nif not valid:\n  return None\nproduct = 1\nfor num in nums:\n  product *= num\nreturn product"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nif not validate_positive(nums):\n  return None\nproduct = calculate_product(nums)\nreturn product\n\ndef validate_positive(nums):\n  for num in nums:\n    if num <= 0:\n      return False\n  return True\n\ndef calculate_product(nums):\n  product = 1\n  for num in nums:\n    product *= num\n  return product"
-      },
-      "highlights": [
-        {
-          "pattern": "if not validate_positive(nums):",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "product = calculate_product(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def validate_positive(nums):",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "def calculate_product(nums):",
-          "class": "highlight-blue"
-        }
-      ]
+    "title": "Count_min_concatenated",
+    "unrefactored": "\n# Step 1: Read numbers from the user\ninput_string = input(\"Enter numbers separated by spaces: \")\nnumbers_str = input_string.split()  # Split the input into a list of strings\nnumbers = []                        # Empty list to store integers\n\n# Convert each string to an integer\nfor num_str in numbers_str:\n    numbers.append(int(num_str))\n\n# Step 2: Find the minimum value\nminimum = numbers[0]  # Start by assuming the first number is the minimum\nfor num in numbers:\n    if num < minimum:\n        minimum = num\n\n# Step 3: Count how many times the minimum appears\ncount = 0\nfor num in numbers:\n    if num == minimum:\n        count += 1\n\n# Step 4: Show the result\nprint(\"The minimum value is:\", minimum)\nprint(\"It appears\", count, \"time(s) in the list.\")\n\n",
+    "refactored": "# Function to read numbers from the user\ndef read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n\n# Function to find the minimum value in a list\ndef find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n\n# Function to count how many times the minimum appears\ndef count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n\n# Main program\n# numbers = read_numbers()\n# minimum_value = find_minimum(numbers)\n# minimum_count = count_minimum(numbers, minimum_value)\n\n# print(\"The minimum value is:\", minimum_value)\n# print(\"It appears\", minimum_count, \"time(s) in the list.\")\n",
+    "highlights": [
+      "def count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n",
+      "def find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n",
+      "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
+    ]
+  },
+  "flowers": {
+    "metadata": {
+      "repetition": "Identical",
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "count-evens-odds": {
-      "title": "Count Evens and Odds",
-      "prompt": "Given a list of N integers, count how many are even and how many are odd.",
-      "patterns": "counting, classification",
-      "explanation": "Demonstrates variable included repetition where similar counting logic is applied with different conditions.",
-      "metadata": {
-        "dataDependency": "Non-sequential",
-        "codePattern": "Interleaved",
-        "repetition": "Variable Included"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\neven_count = 0\nodd_count = 0\nfor num in nums:\n  if num % 2 == 0:\n    even_count += 1\n  else:\n    odd_count += 1\nreturn even_count, odd_count"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\neven_count = count_by_condition(nums, is_even)\nodd_count = count_by_condition(nums, is_odd)\nreturn even_count, odd_count\n\ndef count_by_condition(nums, condition):\n  count = 0\n  for num in nums:\n    if condition(num):\n      count += 1\n  return count\n\ndef is_even(num):\n  return num % 2 == 0\n\ndef is_odd(num):\n  return num % 2 != 0"
-      },
-      "highlights": [
-        {
-          "pattern": "even_count = count_by_condition(nums, is_even)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "odd_count = count_by_condition(nums, is_odd)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "def count_by_condition(nums, condition):",
-          "class": "highlight-green"
-        }
-      ]
+    "title": "Flowers",
+    "unrefactored": "# Printing ASCII art of roses and carnations\n\nprint(\"Long-stem Rose\")\nprint(\" @@@@\")\nprint(\"@@()@@\")\nprint(\" @@@@\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\" \\\\ | /\")\nprint(\"(((|)))\\n\")\n\nprint(\"Short-stem Rose\")\nprint(\" @@@@\")\nprint(\"@@()@@\")\nprint(\" @@@@\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\"(((|)))\\n\")\n\nprint(\"Short-stem Carnation\")\nprint(\" vVVVv\")\nprint(\" (___)\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\"(((|)))\\n\")\n\nprint(\"Long-stem Carnation\")\nprint(\" vVVVv\")\nprint(\" (___)\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\" \\\\ | /\")\nprint(\"(((|)))\")\n",
+    "refactored": "# --- Flower Parts ---\n\n# Petals\ndef rose_petals():\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n\ndef carnation_petals():\n    print(\" vVVVv\")\n    print(\" (___)\")\n\n# Stems\ndef short_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n\ndef long_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\" \\\\ | /\")\n\n# Base (same for all)\ndef base():\n    print(\"(((|)))\")\n\n# --- Full Flowers (assembled from parts) ---\n\ndef long_stem_rose():\n    print(\"Long-stem Rose\")\n    rose_petals()\n    long_stem()\n    base()\n    print()\n\ndef short_stem_rose():\n    print(\"Short-stem Rose\")\n    rose_petals()\n    short_stem()\n    base()\n    print()\n\ndef short_stem_carnation():\n    print(\"Short-stem Carnation\")\n    carnation_petals()\n    short_stem()\n    base()\n    print()\n\ndef long_stem_carnation():\n    print(\"Long-stem Carnation\")\n    carnation_petals()\n    long_stem()\n    base()\n    print()\n\n# --- Print all flowers ---\n\nlong_stem_rose()\nshort_stem_rose()\nshort_stem_carnation()\nlong_stem_carnation()\n",
+    "highlights": [
+      "def base():\n    print(\"(((|)))\")\n",
+      "def carnation_petals():\n    print(\" vVVVv\")\n    print(\" (___)\")\n",
+      "def long_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\" \\\\ | /\")\n",
+      "def long_stem_carnation():\n    print(\"Long-stem Carnation\")\n    carnation_petals()\n    long_stem()\n    base()\n    print()\n",
+      "def long_stem_rose():\n    print(\"Long-stem Rose\")\n    rose_petals()\n    long_stem()\n    base()\n    print()\n",
+      "def rose_petals():\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n",
+      "def short_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n",
+      "def short_stem_carnation():\n    print(\"Short-stem Carnation\")\n    carnation_petals()\n    short_stem()\n    base()\n    print()\n",
+      "def short_stem_rose():\n    print(\"Short-stem Rose\")\n    rose_petals()\n    short_stem()\n    base()\n    print()\n"
+    ]
+  },
+  "guitars": {
+    "metadata": {
+      "repetition": "Identical",
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "scale-and-shift": {
-      "title": "Scale and Shift Array",
-      "prompt": "Given a list of N integers, multiply each by 2, then add 5 to each result.",
-      "patterns": "transformation, mapping",
-      "explanation": "Shows variable scaled repetition where transformations are applied at different scales or magnitudes.",
-      "metadata": {
-        "dataDependency": "Sequential",
-        "codePattern": "Concatenation",
-        "repetition": "Variable Scaled"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nscaled = []\nfor num in nums:\n  scaled.append(num * 2)\nshifted = []\nfor val in scaled:\n  shifted.append(val + 5)\nreturn shifted"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nscaled = scale_values(nums, 2)\nshifted = shift_values(scaled, 5)\nreturn shifted\n\ndef scale_values(nums, factor):\n  result = []\n  for num in nums:\n    result.append(num * factor)\n  return result\n\ndef shift_values(nums, offset):\n  result = []\n  for num in nums:\n    result.append(num + offset)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "scaled = scale_values(nums, 2)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "shifted = shift_values(scaled, 5)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "def scale_values(nums, factor):",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def shift_values(nums, offset):",
-          "class": "highlight-orange"
-        }
-      ]
+    "title": "Guitars",
+    "unrefactored": "#classic guitar\nprint(\"        ___\")\nprint(\"      o|* *|o\")\nprint(\"      o|* *|o\")\nprint(\"      o|* *|o\")\nprint(\"       \\===/\")\nprint(\"        |||\")\nprint(\"        |||\")\nprint(\"     ___|||___\")\nprint(\"    /   |||   \\ \")\nprint(\"   /    |||    \\ \")\nprint(\"  |     |||     |\")\nprint(\"   \\   (|||)   /\")\nprint(\"    |   |||   |\")\nprint(\"   /    |||    \\ \")\nprint(\"  /     |||     \\ \")\nprint(\" /      |||      \\ \")\nprint(\" |     [===]     |\")\nprint(\"  \\             /\")\nprint(\"   '._________.'\")\n#retro guitar\nprint(\"       ._-_.\")\nprint(\"      +|\\G/|+\")\nprint(\"      +|\\./|+\")\nprint(\"      +|\\./|+\")\nprint(\"       \\===/\")\nprint(\"        |||\")\nprint(\"        |||\")\nprint(\"     ___|||___\")\nprint(\"    /   |||   \\ \")\nprint(\"   /    |||    \\ \")\nprint(\"  |     |||     |\")\nprint(\"   \\   (|||)   /\")\nprint(\"    |   |||   |\")\nprint(\"   /    |||    \\ \")\nprint(\"  /     |||     \\ \")\nprint(\" /      |||      \\ \")\nprint(\" |     [===]     |\")\nprint(\"  \\             /\")\nprint(\"   '._________.'\")\n#long guitar\nprint(\"        ___\")\nprint(\"      o|* *|o\")\nprint(\"      o|* *|o\")\nprint(\"      o|* *|o\")\nprint(\"       \\===/\")\nprint(\"        |||\")\nprint(\"        |||\")\nprint(\"        |||\")\nprint(\"        |||\")\nprint(\"     ___|||___\")\nprint(\"    /   |||   \\ \")\nprint(\"   /    |||    \\ \")\nprint(\"  |     |||     |\")\nprint(\"   \\   (|||)   /\")\nprint(\"    |   |||   |\")\nprint(\"   /    |||    \\ \")\nprint(\"  /     |||     \\ \")\nprint(\" /      |||      \\ \")\nprint(\" |     [===]     |\")\nprint(\"  \\             /\")\nprint(\"   '._________.'\")",
+    "refactored": "def print_head() -> None:\n    print(\"        ___\")\n    print(\"      o|* *|o\")\n    print(\"      o|* *|o\")\n    print(\"      o|* *|o\")\n    print(\"       \\===/\")\n\ndef print_retro_head() -> None:\n    print(\"       ._-_.\")\n    print(\"      +|\\G/|+\")\n    print(\"      +|\\./|+\")\n    print(\"      +|\\./|+\")\n    print(\"       \\===/\")\n\ndef print_neck() -> None:\n    print(\"        |||\")\n    print(\"        |||\")\n\ndef print_body() -> None:\n    print(\"     ___|||___\")\n    print(\"    /   |||   \\ \")\n    print(\"   /    |||    \\ \")\n    print(\"  |     |||     |\")\n    print(\"   \\   (|||)   /\")\n    print(\"    |   |||   |\")\n    print(\"   /    |||    \\ \")\n    print(\"  /     |||     \\ \")\n    print(\" /      |||      \\ \")\n    print(\" |     [===]     |\")\n    print(\"  \\             /\")\n    print(\"   '._________.'\")\n\ndef print_classic_guitar() -> None:\n  print_head()\n  print_neck()\n  print_body()\n\ndef print_retro_guitar() -> None:\n  print_retro_head()\n  print_neck()\n  print_body()\n\ndef print_long_guitar() -> None:\n  print_head()\n  print_neck()\n  print_neck()\n  print_body()\n\ndef main() -> None:\n  print(\"Classic guitar\")\n  print_classic_guitar()\n  print(\"Retro guitar\")\n  print_retro_guitar()\n  print(\"Long guitar\")\n  print_long_guitar()\n\nmain()",
+    "highlights": [
+      "def main() -> None:\n  print(\"Classic guitar\")\n  print_classic_guitar()\n  print(\"Retro guitar\")\n  print_retro_guitar()\n  print(\"Long guitar\")\n  print_long_guitar()\n",
+      "def print_body() -> None:\n    print(\"     ___|||___\")\n    print(\"    /   |||   \\ \")\n    print(\"   /    |||    \\ \")\n    print(\"  |     |||     |\")\n    print(\"   \\   (|||)   /\")\n    print(\"    |   |||   |\")\n    print(\"   /    |||    \\ \")\n    print(\"  /     |||     \\ \")\n    print(\" /      |||      \\ \")\n    print(\" |     [===]     |\")\n    print(\"  \\             /\")\n    print(\"   '._________.'\")\n",
+      "def print_classic_guitar() -> None:\n  print_head()\n  print_neck()\n  print_body()\n",
+      "def print_head() -> None:\n    print(\"        ___\")\n    print(\"      o|* *|o\")\n    print(\"      o|* *|o\")\n    print(\"      o|* *|o\")\n    print(\"       \\===/\")\n",
+      "def print_long_guitar() -> None:\n  print_head()\n  print_neck()\n  print_neck()\n  print_body()\n",
+      "def print_neck() -> None:\n    print(\"        |||\")\n    print(\"        |||\")\n",
+      "def print_retro_guitar() -> None:\n  print_retro_head()\n  print_neck()\n  print_body()\n",
+      "def print_retro_head() -> None:\n    print(\"       ._-_.\")\n    print(\"      +|\\G/|+\")\n    print(\"      +|\\./|+\")\n    print(\"      +|\\./|+\")\n    print(\"       \\===/\")\n"
+    ]
+  },
+  "count_min_interleaved": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "Interleaved",
+      "dataDependency": "None"
     },
-    "merge-sorted-lists": {
-      "title": "Merge Two Sorted Lists",
-      "prompt": "Given two sorted lists, merge them into one sorted list.",
-      "patterns": "merging, sorting",
-      "explanation": "Interleaved pattern where elements from two sources are combined in an alternating fashion based on comparison.",
-      "metadata": {
-        "dataDependency": "Shared",
-        "codePattern": "Interleaved",
-        "repetition": "None"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(list1, list2)\nresult = []\ni = 0\nj = 0\nwhile i < len(list1) and j < len(list2):\n  if list1[i] <= list2[j]:\n    result.append(list1[i])\n    i += 1\n  else:\n    result.append(list2[j])\n    j += 1\nresult.extend(list1[i:])\nresult.extend(list2[j:])\nreturn result"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(list1, list2)\nmerged = merge_lists(list1, list2)\nreturn merged\n\ndef merge_lists(list1, list2):\n  result = []\n  i, j = 0, 0\n  while i < len(list1) and j < len(list2):\n    if list1[i] <= list2[j]:\n      result.append(list1[i])\n      i += 1\n    else:\n      result.append(list2[j])\n      j += 1\n  result.extend(list1[i:])\n  result.extend(list2[j:])\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "merged = merge_lists(list1, list2)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def merge_lists(list1, list2):",
-          "class": "highlight-blue"
-        }
-      ]
+    "title": "Count_min_interleaved",
+    "unrefactored": "# Beginner-friendly Python code for the pseudocode\n\n# Step 1: Read numbers from the user\ninput_string = input(\"Enter numbers separated by spaces: \")\nnumbers_str = input_string.split()  # Split the input into a list of strings\nnumbers = []                        # Empty list to store integers\n\n# Convert each string to an integer\nfor num_str in numbers_str:\n    numbers.append(int(num_str))\n\n# Step 2: Assume the first number is the minimum\nminimum = numbers[0]\n\n# Step 3: Initialize the counter\ncounter = 0\n\n# Step 4: Find the minimum and count its occurrences at the same time\nfor num in numbers:\n    if num < minimum:\n        minimum = num\n        counter = 0  # Reset counter if a new minimum is found\n    elif num == minimum:\n        counter += 1  # Count the minimum\n\n# Step 5: Display the result\nprint(\"The minimum value is:\", minimum)\nprint(\"It appears\", counter, \"time(s) in the list.\")\n",
+    "refactored": "# Function to read numbers from the user\ndef read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n\n# Function to find the minimum value in a list\ndef find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n\n# Function to count how many times the minimum appears\ndef count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n\n# Main program\n# numbers = read_numbers()\n# minimum_value = find_minimum(numbers)\n# minimum_count = count_minimum(numbers, minimum_value)\n\n# print(\"The minimum value is:\", minimum_value)\n# print(\"It appears\", minimum_count, \"time(s) in the list.\")",
+    "highlights": [
+      "def count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n",
+      "def find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n",
+      "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
+    ]
+  },
+  "old_macdonald": {
+    "metadata": {
+      "repetition": "Variable Included",
+      "codePattern": "Concatenation",
+      "dataDependency": "Sequential"
     },
-    "find-second-largest": {
-      "title": "Find Second Largest",
-      "prompt": "Given a list of N integers, find the second largest value.",
-      "patterns": "extremum, comparison",
-      "explanation": "Sequential dependency where finding the second largest requires knowing the largest value first.",
-      "metadata": {
-        "dataDependency": "Sequential",
-        "codePattern": "Inclusion",
-        "repetition": "Identical"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nmax_val = nums[0]\nsecond_max = nums[0]\nfor num in nums:\n  if num > max_val:\n    second_max = max_val\n    max_val = num\n  elif num > second_max and num != max_val:\n    second_max = num\nreturn second_max"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nsorted_unique = get_sorted_unique(nums)\nsecond_largest = sorted_unique[-2] if len(sorted_unique) >= 2 else None\nreturn second_largest\n\ndef get_sorted_unique(nums):\n  unique_nums = list(set(nums))\n  unique_nums.sort(reverse=True)\n  return unique_nums"
-      },
-      "highlights": [
-        {
-          "pattern": "sorted_unique = get_sorted_unique(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def get_sorted_unique(nums):",
-          "class": "highlight-blue"
-        }
-      ]
+    "title": "Old_macdonald",
+    "unrefactored": "# Old MacDonald Had a Farm - Nursery Rhyme \n\n# Verse 1 - Cows\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\")\nprint(\"And on his farm he had some cows\")\nprint(\"Ee i ee i o\")\nprint(\"With a moo-moo here\")\nprint(\"And a moo-moo there\")\nprint(\"Here a moo, there a moo\")\nprint(\"Everywhere a moo-moo\")\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\\n\")\n\n# Verse 2 - Chicks\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\")\nprint(\"And on his farm he had some chicks\")\nprint(\"Ee i ee i o\")\nprint(\"With a cluck-cluck here\")\nprint(\"And a cluck-cluck there\")\nprint(\"Here a cluck, there a cluck\")\nprint(\"Everywhere a cluck-cluck\")\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\\n\")\n\n# Verse 3 - Pigs\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\")\nprint(\"And on his farm he had some pigs\")\nprint(\"Ee i ee i o\")\nprint(\"With a oink-oink here\")\nprint(\"And a oink-oink there\")\nprint(\"Here a oink, there a oink\")\nprint(\"Everywhere a oink-oink\")\nprint(\"Old MacDonald had a farm\")\nprint(\"Ee i ee i o\")",
+    "refactored": "# Old MacDonald Had a Farm - Nursery Rhyme\n\ndef old_macdonald_verse(animal, sound):\n    print(\"Old MacDonald had a farm\")\n    print(\"Ee i ee i o\")\n    print(f\"And on his farm he had some {animal}s\")\n    print(\"Ee i ee i o\")\n    print(f\"With a {sound}-{sound} here\")\n    print(f\"And a {sound}-{sound} there\")\n    print(f\"Here a {sound}, there a {sound}\")\n    print(f\"Everywhere a {sound}-{sound}\")\n    print(\"Old MacDonald had a farm\")\n    print(\"Ee i ee i o\\n\")\n\n# Verses\nold_macdonald_verse(\"cow\", \"moo\")\nold_macdonald_verse(\"chick\", \"cluck\")\nold_macdonald_verse(\"pig\", \"oink\")\n",
+    "highlights": [
+      "def old_macdonald_verse(animal, sound):\n    print(\"Old MacDonald had a farm\")\n    print(\"Ee i ee i o\")\n    print(f\"And on his farm he had some {animal}s\")\n    print(\"Ee i ee i o\")\n    print(f\"With a {sound}-{sound} here\")\n    print(f\"And a {sound}-{sound} there\")\n    print(f\"Here a {sound}, there a {sound}\")\n    print(f\"Everywhere a {sound}-{sound}\")\n    print(\"Old MacDonald had a farm\")\n    print(\"Ee i ee i o\\n\")\n"
+    ]
+  },
+  "elephants": {
+    "metadata": {
+      "repetition": "Variable Included",
+      "codePattern": "Concatenation",
+      "dataDependency": "Sequential"
     },
-    "normalize-data": {
-      "title": "Normalize Data",
-      "prompt": "Given a list of N integers, normalize them to range [0, 1].",
-      "patterns": "normalization, scaling",
-      "explanation": "Shows shared data dependency where min and max are needed by all normalization calculations. Variable scaled repetition applies the same formula with different values.",
-      "metadata": {
-        "dataDependency": "Shared",
-        "codePattern": "Inclusion",
-        "repetition": "Variable Scaled"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nmin_val = nums[0]\nmax_val = nums[0]\nfor num in nums:\n  if num < min_val:\n    min_val = num\n  if num > max_val:\n    max_val = num\nrange_val = max_val - min_val\nnormalized = []\nfor num in nums:\n  normalized.append((num - min_val) / range_val)\nreturn normalized"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nmin_val = find_min(nums)\nmax_val = find_max(nums)\nnormalized = normalize_values(nums, min_val, max_val)\nreturn normalized\n\ndef find_min(nums):\n  min_val = nums[0]\n  for num in nums:\n    if num < min_val:\n      min_val = num\n  return min_val\n\ndef find_max(nums):\n  max_val = nums[0]\n  for num in nums:\n    if num > max_val:\n      max_val = num\n  return max_val\n\ndef normalize_values(nums, min_val, max_val):\n  range_val = max_val - min_val\n  result = []\n  for num in nums:\n    result.append((num - min_val) / range_val)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "min_val = find_min(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "max_val = find_max(nums)",
-          "class": "highlight-green"
-        },
-        {
-          "pattern": "normalized = normalize_values(nums, min_val, max_val)",
-          "class": "highlight-orange"
-        }
-      ]
-    },
-    "remove-duplicates": {
-      "title": "Remove Duplicates",
-      "prompt": "Given a list of N integers, remove all duplicate values while preserving order.",
-      "patterns": "deduplication, filtering",
-      "explanation": "Non-sequential dependency where each element is checked independently against previously seen values.",
-      "metadata": {
-        "dataDependency": "Non-sequential",
-        "codePattern": "Concatenation",
-        "repetition": "None"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums)\nseen = set()\nresult = []\nfor num in nums:\n  if num not in seen:\n    seen.add(num)\n    result.append(num)\nreturn result"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums)\nunique = get_unique_ordered(nums)\nreturn unique\n\ndef get_unique_ordered(nums):\n  seen = set()\n  result = []\n  for num in nums:\n    if num not in seen:\n      seen.add(num)\n      result.append(num)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "unique = get_unique_ordered(nums)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "def get_unique_ordered(nums):",
-          "class": "highlight-blue"
-        }
-      ]
-    },
-    "partition-by-pivot": {
-      "title": "Partition by Pivot",
-      "prompt": "Given a list of N integers and a pivot value, partition into elements less than, equal to, and greater than the pivot.",
-      "patterns": "partitioning, comparison",
-      "explanation": "Interleaved pattern with variable included repetition where similar comparison logic produces three different outputs.",
-      "metadata": {
-        "dataDependency": "Non-sequential",
-        "codePattern": "Interleaved",
-        "repetition": "Variable Included"
-      },
-      "unrefactored": {
-        "title": "Unrefactored",
-        "code": "read(nums, pivot)\nless_than = []\nequal_to = []\ngreater_than = []\nfor num in nums:\n  if num < pivot:\n    less_than.append(num)\n  elif num == pivot:\n    equal_to.append(num)\n  else:\n    greater_than.append(num)\nreturn less_than, equal_to, greater_than"
-      },
-      "refactored": {
-        "title": "Refactored",
-        "code": "read(nums, pivot)\nless_than = filter_by_condition(nums, lambda x: x < pivot)\nequal_to = filter_by_condition(nums, lambda x: x == pivot)\ngreater_than = filter_by_condition(nums, lambda x: x > pivot)\nreturn less_than, equal_to, greater_than\n\ndef filter_by_condition(nums, condition):\n  result = []\n  for num in nums:\n    if condition(num):\n      result.append(num)\n  return result"
-      },
-      "highlights": [
-        {
-          "pattern": "less_than = filter_by_condition(nums, lambda x: x < pivot)",
-          "class": "highlight-blue"
-        },
-        {
-          "pattern": "equal_to = filter_by_condition(nums, lambda x: x == pivot)",
-          "class": "highlight-orange"
-        },
-        {
-          "pattern": "greater_than = filter_by_condition(nums, lambda x: x > pivot)",
-          "class": "highlight-green"
-        },
-        {
-          "pattern": "def filter_by_condition(nums, condition):",
-          "class": "highlight-blue"
-        }
-      ]
-    }
+    "title": "Elephants",
+    "unrefactored": "# One Little Elephant - Nursery Rhyme\n\nprint(\"One little elephant went out to play,\")\nprint(\"Upon a spider's web one day.\")\nprint(\"He had such enormous fun,\")\nprint(\"That he called for another elephant to come!\\n\")\n\nprint(\"Two little elephants went out to play,\")\nprint(\"Upon a spider's web one day.\")\nprint(\"They had such enormous fun,\")\nprint(\"That they called for another elephant to come!\\n\")\n\nprint(\"Three little elephants went out to play,\")\nprint(\"Upon a spider's web one day.\")\nprint(\"They had such enormous fun,\")\nprint(\"That they called for another elephant to come!\\n\")\n\nprint(\"Four little elephants went out to play,\")\nprint(\"Upon a spider's web one day.\")\nprint(\"They had such enormous fun,\")\nprint(\"That they called for another elephant to come!\\n\")\n\nprint(\"Five little elephants went out to play,\")\nprint(\"Upon a spider's web one day.\")\nprint(\"The web went creak, the web went crack,\")\nprint(\"And five little elephants came running back!\")\n",
+    "refactored": "# \"One Little Elephant\" nursery rhyme\n\ndef verse_one():\n    print(\"One little elephant went out to play,\")\n    print(\"Upon a spider's web one day.\")\n    print(\"He had such enormous fun,\")\n    print(\"That he called for another elephant to come!\\n\")\n\ndef verse_multiple(count_str):\n    print(f\"{count_str.capitalize()} little elephants went out to play,\")\n    print(\"Upon a spider's web one day.\")\n    print(\"They had such enormous fun,\")\n    print(\"That they called for another elephant to come!\\n\")\n\n\n# Call all verses\nverse_one()\nverse_multiple(\"two\")\nverse_multiple(\"three\")\nverse_multiple(\"four\")\nverse_multiple(\"five\")",
+    "highlights": [
+      "def verse_multiple(count_str):\n    print(f\"{count_str.capitalize()} little elephants went out to play,\")\n    print(\"Upon a spider's web one day.\")\n    print(\"They had such enormous fun,\")\n    print(\"That they called for another elephant to come!\\n\")\n",
+      "def verse_one():\n    print(\"One little elephant went out to play,\")\n    print(\"Upon a spider's web one day.\")\n    print(\"He had such enormous fun,\")\n    print(\"That he called for another elephant to come!\\n\")\n"
+    ]
   }
+}
 }
