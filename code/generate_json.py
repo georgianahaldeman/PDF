@@ -42,14 +42,14 @@ def traverse_directory(start_path):
             continue
 
         example = os.path.basename(root)
-        print(example)
+        # print(example)
         
 
         if example not in json_data:
             # print(generate_metadata(root))
             info = {}
             info["metadata"] = generate_metadata(root)
-            info["title"] = str(example).capitalize()
+            info["title"] = generate_title(str(example))
             json_data[example] = info
 
         else:
@@ -64,43 +64,48 @@ def traverse_directory(start_path):
                 info["unrefactored"] = file_content
             else:
                 info["refactored"] = file_content
-                spec = importlib.util.spec_from_file_location("refactored", os.fspath(os.path.join(root, f)))
-                module = importlib.util.module_from_spec(spec)
+                # spec = importlib.util.spec_from_file_location("refactored", os.fspath(os.path.join(root, f)))
+                # module = importlib.util.module_from_spec(spec)
 
-                spec.loader.exec_module(module)
+                # spec.loader.exec_module(module)
 
-                info["highlights"] = get_methods_in_module(module)
+                # info["highlights"] = get_methods_in_module(module)
 
 
     with open("new_data.json", "w") as f:
         json.dump(json_data, f, indent=2)
 
+def generate_title(name):
+    title = ''
+    for word in name.split("_"):
+        title += word.capitalize() + " "
+    return title.strip()
   
 def generate_metadata(type):
     parts = re.split('[/_ .]',type)
 
     parts = [value for value in parts if len(value)>3]
 
-    print(parts)
-
-    
+    # print(parts)
 
     metadata = {}
 
     for value in repetitionValues:
-        for feature in parts:
-            if feature in value.lower():
-                metadata["repetition"] = value
+        feature = parts[1]
+        if feature in value.lower():
+            metadata["repetition"] = value
 
     for value in codePatternValues:
-        for feature in parts:
-            if feature in value.lower():
-                metadata["codePattern"] = value    
+        feature = parts[2]
+        if feature == value.lower():
+            metadata["codePattern"] = value    
 
     for value in dataDependencyValues:
-        for feature in parts:
-            if feature in value.lower() and "dataDependency" not in metadata:
-                metadata["dataDependency"] = value   
+        feature = parts[3]
+        if feature == value.lower().replace("-","") and "dataDependency" not in metadata:
+            metadata["dataDependency"] = value 
+
+    # print(metadata)  
 
     return metadata
 
