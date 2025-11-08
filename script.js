@@ -46,48 +46,19 @@ async function loadCodeExamples() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         codeExamplesData = await response.json();
-        loadCurrentExample('rose');
+        if (areCodeExamplesLoaded()){
+            displaySuccessDataLoading();
+        }
     } catch (error) {
         console.error('Error loading code examples:', error);
-        // display error 
+        displayErrorDataLoading();
     }
-}
-
-// Load a specific example
-function loadCurrentExample(exampleKey) {
-    if (!codeExamplesData || !codeExamplesData.examples[exampleKey]) {
-        return;
-    }
-    
-    const example = codeExamplesData.examples[exampleKey];
-    
-    // Update code blocks
-    // document.getElementById('unrefactored-title').textContent = example.unrefactored.title;
-    // document.getElementById('refactored-title').textContent = example.refactored.title;
-    
-    // Apply highlights to refactored code
-    let refactoredCode = example.refactored;
-    example.highlights.forEach((highlight,index) => {
-        const highlightedCode = `<span class="${getValue(colorClasses,index%3)}">${highlight}</span>`;
-        refactoredCode = refactoredCode.replace(highlight, highlightedCode);
-    });
-
-    // Update description
-    document.getElementById('example-prompt').textContent = example.prompt;
-    document.getElementById('example-explanation').textContent = example.explanation;
-    document.getElementById('example').textContent = example.title;
-    
-    document.getElementById('unrefactored-code').textContent = example.unrefactored;
-    document.getElementById('refactored-code').innerHTML = refactoredCode;
-
-
 }
 
 function initializeSliders() {
     // Sliders now only show tick labels, no dynamic value updates needed
     // The discrete values are handled by the HTML step attribute
 }
-
 
 function initializeTabs() {
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -116,35 +87,14 @@ function initializeShowExamplesButton() {
         this.classList.add('loading');
         this.disabled = true;
 
-        // Get current slider values
-        const dataDependency = document.getElementById('data-dependency').value;
-        const codePattern = document.getElementById('code-pattern').value;
-        const repetition = document.getElementById('repetition').value;
-
-        // Ensure examples are loaded
-        if (!codeExamplesData) {
-            console.error('Code examples not loaded yet');
+        if (!areCodeExamplesLoaded){
             this.classList.remove('loading');
             this.disabled = false;
-            return;
         }
-
-        // Get the human-readable values
-        const dataDepValue = getValue(dataDependencyValues, parseInt(dataDependency));
-        const codePatternValue = getValue(codePatternValues, parseInt(codePattern));
-        const repetitionValue = getValue(repetitionValues, parseInt(repetition));
 
         // Simulate slight delay for better UX (shows loading state)
         setTimeout(() => {
-            // Find all matching examples
-            const matchingExamples = findMatchingExamples(dataDepValue, codePatternValue, repetitionValue);
-
-            // Display results
-            if (matchingExamples.length > 0) {
-                displayMatchingExamples(matchingExamples);
-            } else {
-                displayNoMatches(dataDepValue, codePatternValue, repetitionValue);
-            }
+            retrieveCodeExamples();
 
             // Remove loading state
             this.classList.remove('loading');
@@ -158,6 +108,34 @@ function initializeShowExamplesButton() {
             }, 200);
         }, 300);
     });
+}
+
+function areCodeExamplesLoaded(){
+    // Checks if code examples are loaded
+    if (codeExamplesData) {
+        return true;
+    } else {
+        console.error('Code examples not loaded yet');
+        displayErrorDataLoading();
+        return false;
+    }
+}
+
+function retrieveCodeExamples(){
+    // Get the human-readable values from the slider values
+    const dataDepValue = getValue(dataDependencyValues,document.getElementById('data-dependency').value);
+    const codePatternValue = getValue(codePatternValues,document.getElementById('code-pattern').value);
+    const repetitionValue = getValue(repetitionValues,document.getElementById('repetition').value);
+
+    // Find all matching examples
+    const matchingExamples = findMatchingExamples(dataDepValue, codePatternValue, repetitionValue);
+
+    // Display results
+    if (matchingExamples.length > 0) {
+        displayMatchingExamples(matchingExamples);
+    } else {
+        displayNoMatches(dataDepValue, codePatternValue, repetitionValue);
+    }
 }
 
 // Find examples that match the selected pattern criteria
@@ -238,10 +216,10 @@ function displayMatchingExamples(matches) {
     initializeTabs();
 
     // Display the first example's description
-    const firstExample = matches[0].example;
-    document.getElementById('example-prompt').textContent = firstExample.prompt;
-    document.getElementById('example-patterns').textContent = firstExample.patterns;
-    document.getElementById('example-explanation').textContent = firstExample.explanation;
+    // const firstExample = matches[0].example;
+    // document.getElementById('example-prompt').textContent = firstExample.prompt;
+    // document.getElementById('example-patterns').textContent = firstExample.patterns;
+    // document.getElementById('example-explanation').textContent = firstExample.explanation;
 }
 
 // Display message when no examples match the criteria
@@ -253,8 +231,6 @@ function displayNoMatches(dataDep, codePattern, repetition) {
     // Remove old tab content
     const oldTabContents = document.querySelectorAll('.tab-content');
     oldTabContents.forEach(content => content.remove());
-
-
 
     // Create a message div
     const messageContent = document.createElement('div');
@@ -273,7 +249,54 @@ function displayNoMatches(dataDep, codePattern, repetition) {
     `;
 
     const examplesSection = document.querySelector('.examples-section');
-    examplesSection.removeChild(document.querySelector('.description-section'));
+    examplesSection.appendChild(messageContent);
+}
+
+function displayErrorDataLoading() {
+    // Clear existing tabs
+    const tabsContainer = document.querySelector('.tabs');
+    tabsContainer.innerHTML = '<div style="padding: 15px; text-align: center; color: #e74c3c; font-weight: 600;">Error loading code examples</div>';
+
+    // Remove old tab content
+    const oldTabContents = document.querySelectorAll('.tab-content');
+    oldTabContents.forEach(content => content.remove());
+
+    // Create a message div
+    const messageContent = document.createElement('div');
+    messageContent.className = 'tab-content active';
+    messageContent.innerHTML = `
+        <div style="padding: 40px; text-align: center;">
+            <h3 style="color: #e74c3c; margin-bottom: 20px;">Oups ... </h3>
+            <p style="color: #7f8c8d; margin-bottom: 10px;">The examples data did not load.</p>
+            <p style="color: #7f8c8d; margin-top: 20px;">Contact us to report this issue. Thank you!</p>
+        </div>
+    `;
+
+    const examplesSection = document.querySelector('.examples-section');
+    examplesSection.appendChild(messageContent);
+}
+
+function displaySuccessDataLoading() {
+    // Clear existing tabs
+    const tabsContainer = document.querySelector('.tabs');
+    tabsContainer.innerHTML = '<div style="padding: 15px; text-align: center; color: #e74c3c; font-weight: 600;">Code examples loaded</div>';
+
+    // Remove old tab content
+    const oldTabContents = document.querySelectorAll('.tab-content');
+    oldTabContents.forEach(content => content.remove());
+
+    // Create a message div
+    const messageContent = document.createElement('div');
+    messageContent.className = 'tab-content active';
+    messageContent.innerHTML = `
+        <div style="padding: 40px; text-align: center;">
+            <h3 style="color: #e74c3c; margin-bottom: 20px;">Yay ... </h3>
+            <p style="color: #7f8c8d; margin-bottom: 10px;">The examples data has been loaded.</p>
+            <p style="color: #7f8c8d; margin-top: 20px;">Make your selections and click Show Example(s) to see an example corresponding to your selections.</p>
+        </div>
+    `;
+
+    const examplesSection = document.querySelector('.examples-section');
     examplesSection.appendChild(messageContent);
 }
 
@@ -291,7 +314,6 @@ function applyHighlights(code, highlights) {
     if (!highlights || highlights.length === 0) {
         return highlightedCode;
     }
-
 
     highlights.forEach((highlight,index) => {
         const escapedPattern = escapeHtml(highlight);
