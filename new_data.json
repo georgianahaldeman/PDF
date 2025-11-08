@@ -36,6 +36,23 @@
       "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
     ]
   },
+  "count_min_concatenated": {
+    "metadata": {
+      "repetition": "None",
+      "codePattern": "Concatenation",
+      "dataDependency": "Sequential"
+    },
+    "title": "Count Min Concatenated",
+    "prompt": "Count how many times the minimum value appears in a list.",
+    "explanation": "The code patterns (counting and finding the minimum) are concatenated and may be separated into different functions.",
+    "unrefactored": "\n# Step 1: Read numbers from the user\ninput_string = input(\"Enter numbers separated by spaces: \")\nnumbers_str = input_string.split()  # Split the input into a list of strings\nnumbers = []                        # Empty list to store integers\n\n# Convert each string to an integer\nfor num_str in numbers_str:\n    numbers.append(int(num_str))\n\n# Step 2: Find the minimum value\nminimum = numbers[0]  # Start by assuming the first number is the minimum\nfor num in numbers:\n    if num < minimum:\n        minimum = num\n\n# Step 3: Count how many times the minimum appears\ncount = 0\nfor num in numbers:\n    if num == minimum:\n        count += 1\n\n# Step 4: Show the result\nprint(\"The minimum value is:\", minimum)\nprint(\"It appears\", count, \"time(s) in the list.\")\n\n",
+    "refactored": "# Function to read numbers from the user\ndef read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n\n# Function to find the minimum value in a list\ndef find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n\n# Function to count how many times the minimum appears\ndef count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n\n# Main program\n# numbers = read_numbers()\n# minimum_value = find_minimum(numbers)\n# minimum_count = count_minimum(numbers, minimum_value)\n\n# print(\"The minimum value is:\", minimum_value)\n# print(\"It appears\", minimum_count, \"time(s) in the list.\")\n",
+    "highlights": [
+      "def count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n",
+      "def find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n",
+      "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
+    ]
+  },
   "rose": {
     "metadata": {
       "repetition": "None",
@@ -44,13 +61,11 @@
     },
     "title": "Rose",
     "prompt": "Draw a rose using ASCII characters.",
-    "explanation": "The principle of single responsability can be applied to separate the different components of the program into different functions with specific funtionality, for example, drawing the rose bud and the stem.",
+    "explanation": "Splitting the code to reflect single responsibility is optional. Mode the Code Pattern slider to Concatenated to see the version that splits the program in multipl functions based on the single responsability principle.",
     "unrefactored": "print(\"Roses are red\")\nprint(\" @@@@\")\nprint(\"@@()@@\")\nprint(\" @@@@\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\"(((|)))\\n\")",
-    "refactored": "def draw_rose_bud():    \n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n\ndef draw_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n\ndef draw_ascii_rose():\n    print(\"Roses are red\")\n    draw_rose_bud()\n    draw_stem()\n\n# draw_ascii_rose()",
+    "refactored": "\ndef draw_ascii_rose():\n    print(\"Roses are red\")\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n\n# draw_ascii_rose()",
     "highlights": [
-      "def draw_ascii_rose():\n    print(\"Roses are red\")\n    draw_rose_bud()\n    draw_stem()\n",
-      "def draw_rose_bud():    \n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n",
-      "def draw_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n"
+      "def draw_ascii_rose():\n    print(\"Roses are red\")\n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n"
     ]
   },
   "garden_no_repetition": {
@@ -106,20 +121,21 @@
       "def main() -> None:\n    cube_len = int(input(\"Cube length? \"))\n    width = get_fit(cube_len, 'width')\n    height = get_fit(cube_len, 'height')\n    length = get_fit(cube_len, 'length')\n    fit = width * height * length\n    print(str(fit)+\" Rubik's cubes will fit in that container.\")\n"
     ]
   },
-  "count_min_concatenated": {
+  "rose_split": {
     "metadata": {
       "repetition": "None",
-      "dataDependency": "Sequential"
+      "codePattern": "Concatenation",
+      "dataDependency": "None"
     },
-    "title": "Count Min Concatenated",
-    "prompt": "Count how many times the minimum value appears in a list.",
-    "explanation": "The code patterns (counting and finding the minimum) are concatenated and may be separated into different functions.",
-    "unrefactored": "\n# Step 1: Read numbers from the user\ninput_string = input(\"Enter numbers separated by spaces: \")\nnumbers_str = input_string.split()  # Split the input into a list of strings\nnumbers = []                        # Empty list to store integers\n\n# Convert each string to an integer\nfor num_str in numbers_str:\n    numbers.append(int(num_str))\n\n# Step 2: Find the minimum value\nminimum = numbers[0]  # Start by assuming the first number is the minimum\nfor num in numbers:\n    if num < minimum:\n        minimum = num\n\n# Step 3: Count how many times the minimum appears\ncount = 0\nfor num in numbers:\n    if num == minimum:\n        count += 1\n\n# Step 4: Show the result\nprint(\"The minimum value is:\", minimum)\nprint(\"It appears\", count, \"time(s) in the list.\")\n\n",
-    "refactored": "# Function to read numbers from the user\ndef read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n\n# Function to find the minimum value in a list\ndef find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n\n# Function to count how many times the minimum appears\ndef count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n\n# Main program\n# numbers = read_numbers()\n# minimum_value = find_minimum(numbers)\n# minimum_count = count_minimum(numbers, minimum_value)\n\n# print(\"The minimum value is:\", minimum_value)\n# print(\"It appears\", minimum_count, \"time(s) in the list.\")\n",
+    "title": "Rose Split",
+    "prompt": "Draw a rose using ASCII characters.",
+    "explanation": "The principle of single responsability can be applied to separate the different components of the program into different functions with specific funtionality, for example, drawing the rose bud and the stem.",
+    "unrefactored": "print(\"Roses are red\")\nprint(\" @@@@\")\nprint(\"@@()@@\")\nprint(\" @@@@\")\nprint(\"   Y\")\nprint(\"  \\\\|/\")\nprint(\"(((|)))\\n\")",
+    "refactored": "def draw_rose_bud():    \n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n\ndef draw_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n\ndef draw_ascii_rose():\n    print(\"Roses are red\")\n    draw_rose_bud()\n    draw_stem()\n\n# draw_ascii_rose()",
     "highlights": [
-      "def count_minimum(numbers, minimum):\n    count = 0\n    for num in numbers:\n        if num == minimum:\n            count += 1\n    return count\n",
-      "def find_minimum(numbers):\n    minimum = numbers[0]\n    for num in numbers:\n        if num < minimum:\n            minimum = num\n    return minimum\n",
-      "def read_numbers():\n    input_string = input(\"Enter numbers separated by spaces: \")\n    numbers_str = input_string.split()\n    numbers = []\n    for num_str in numbers_str:\n        numbers.append(int(num_str))\n    return numbers\n"
+      "def draw_ascii_rose():\n    print(\"Roses are red\")\n    draw_rose_bud()\n    draw_stem()\n",
+      "def draw_rose_bud():    \n    print(\" @@@@\")\n    print(\"@@()@@\")\n    print(\" @@@@\")\n",
+      "def draw_stem():\n    print(\"   Y\")\n    print(\"  \\\\|/\")\n    print(\"(((|)))\\n\")\n"
     ]
   },
   "flowers": {
