@@ -67,22 +67,20 @@ function loadCurrentExample(exampleKey) {
     
     // Apply highlights to refactored code
     let refactoredCode = example.refactored;
-    example.highlights.forEach(highlight => {
-        const highlightedCode = `<span class="highlight-orange">${highlight}</span>`;
+    example.highlights.forEach((highlight,index) => {
+        const highlightedCode = `<span class="${getValue(colorClasses,index%3)}">${highlight}</span>`;
         refactoredCode = refactoredCode.replace(highlight, highlightedCode);
     });
 
-    // document.getElementById('tab-button').textContent = example.title;
+    // Update description
+    document.getElementById('example-prompt').textContent = example.prompt;
+    document.getElementById('example-explanation').textContent = example.explanation;
+    document.getElementById('example').textContent = example.title;
     
     document.getElementById('unrefactored-code').textContent = example.unrefactored;
     document.getElementById('refactored-code').innerHTML = refactoredCode;
 
-    
-    
-    // Update description
-    // document.getElementById('example-prompt').textContent = example.prompt;
-    // document.getElementById('example-patterns').textContent = example.patterns;
-    // document.getElementById('example-explanation').textContent = example.explanation;
+
 }
 
 function initializeSliders() {

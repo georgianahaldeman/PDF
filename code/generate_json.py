@@ -1,4 +1,4 @@
-import os, re, json, inspect, importlib.util, sys
+import os, re, json, inspect, importlib.util, sys, csv
 
 def read_python_file(file_path):
     try:
@@ -9,6 +9,22 @@ def read_python_file(file_path):
         print(f"Error: The file '{file_path}' was not found.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def read_prompts_and_explanations(filepath):
+    prompts = {}
+    explanations = {}
+    try:
+        with open(filepath, mode='r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # print(row)
+                prompts[row['problem']] = row['prompt']
+                explanations[row['problem']] = row['explanation']
+    except FileNotFoundError:
+        print(f"Error: The file '{filepath}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    return prompts, explanations
 
 def get_methods_in_module(module):
     methods = []
@@ -29,7 +45,9 @@ def traverse_directory(start_path):
     """
 
     json_data = {}
-
+    prompts, explanations = read_prompts_and_explanations("./code/info.csv")
+    # print(prompts)
+    # print(explanations)
     for root, dirs, files in os.walk(start_path):
         # 'root' is the current directory being visited
         # 'dirs' is a list of subdirectories in 'root'
@@ -50,8 +68,9 @@ def traverse_directory(start_path):
             info = {}
             info["metadata"] = generate_metadata(root)
             info["title"] = generate_title(str(example))
+            info['prompt'] = prompts[str(example)]
+            info['explanation'] = explanations[str(example)]
             json_data[example] = info
-
         else:
             info = json_data[example]
             
@@ -64,12 +83,12 @@ def traverse_directory(start_path):
                 info["unrefactored"] = file_content
             else:
                 info["refactored"] = file_content
-                # spec = importlib.util.spec_from_file_location("refactored", os.fspath(os.path.join(root, f)))
-                # module = importlib.util.module_from_spec(spec)
+                spec = importlib.util.spec_from_file_location("refactored", os.fspath(os.path.join(root, f)))
+                module = importlib.util.module_from_spec(spec)
 
-                # spec.loader.exec_module(module)
+                spec.loader.exec_module(module)
 
-                # info["highlights"] = get_methods_in_module(module)
+                info["highlights"] = get_methods_in_module(module)
 
 
     with open("new_data.json", "w") as f:
