@@ -193,6 +193,15 @@ function displayMatchingExamples(matches) {
         tabContent.className = `tab-content ${isActive ? 'active' : ''}`;
         tabContent.id = key;
         tabContent.innerHTML = `
+            <div class="description-section">
+                <!-- <h3 style="margin-bottom: 24px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Code Example Details</h3> -->
+                <div class="description-item">
+                    <strong>Prompt:</strong> <span id="example-prompt">${example.prompt}</span>
+                </div>
+                <div class="description-item">
+                    <strong>Explanation:</strong> <span id="example-explanation">${example.explanation}</span>
+                </div>
+            </div>
             <div class="code-comparison">
                 <div class="code-block">
                     <h4>Raw</h4>

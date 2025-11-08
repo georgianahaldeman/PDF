@@ -107,9 +107,10 @@
       "def main() -> None:\n    cube_len = int(input(\"Cube length? \"))\n    width = get_fit(cube_len, 'width')\n    height = get_fit(cube_len, 'height')\n    length = get_fit(cube_len, 'length')\n    fit = width * height * length\n    print(str(fit)+\" Rubik's cubes will fit in that container.\")\n"
     ]
   },
-  "count_min_concatenated": {
+  "count_min_concatenation": {
     "metadata": {
       "repetition": "None",
+      "codePattern": "Concatenation",
       "dataDependency": "Sequential"
     },
     "title": "Count Min Concatenated",
