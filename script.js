@@ -164,6 +164,25 @@ function findMatchingExamples(dataDep, codePattern, repetition) {
     return matches;
 }
 
+function allExamples() {
+    const matches = [];
+
+    if (!codeExamplesData || !codeExamplesData.examples) {
+        return matches;
+    }
+
+    for (const [key, example] of Object.entries(codeExamplesData.examples)) {
+        const metadata = example.metadata;
+        const title = example.title;
+
+        if (!metadata || !title) continue;
+
+        matches.push({title , metadata});
+    }
+
+    return matches;
+}
+
 // Display multiple matching examples by creating tabs
 function displayMatchingExamples(matches) {
     const examplesSection = document.querySelector('.examples-section');
@@ -223,12 +242,6 @@ function displayMatchingExamples(matches) {
 
     // Re-initialize tab click handlers
     initializeTabs();
-
-    // Display the first example's description
-    // const firstExample = matches[0].example;
-    // document.getElementById('example-prompt').textContent = firstExample.prompt;
-    // document.getElementById('example-patterns').textContent = firstExample.patterns;
-    // document.getElementById('example-explanation').textContent = firstExample.explanation;
 }
 
 // Display message when no examples match the criteria
@@ -241,19 +254,26 @@ function displayNoMatches(dataDep, codePattern, repetition) {
     const oldTabContents = document.querySelectorAll('.tab-content');
     oldTabContents.forEach(content => content.remove());
 
+    let suggestions=``;
+    for (const [key, example] of Object.entries(codeExamplesData.examples)) {
+        const metadata = example.metadata;
+        const title = example.title;
+        if (!metadata || !title) continue;
+        suggestions += `<li>${title}: <strong>Repetition:</strong>${metadata.repetition} <strong>Code Pattern:</strong>${metadata.codePattern} <strong>Data Dependency:</strong>${metadata.dataDependency} </li>`
+    }
+
     // Create a message div
     const messageContent = document.createElement('div');
     messageContent.className = 'tab-content active';
     messageContent.innerHTML = `
         <div style="padding: 40px; text-align: center;">
             <h3 style="color: #e74c3c; margin-bottom: 20px;">Oups ... </h3>
-            <p style="color: #7f8c8d; margin-bottom: 10px;">No code examples match the following criteria:</p>
+            <p style="color: #7f8c8d; margin-bottom: 10px;">No code examples match the following criteria: <strong>Data Dependency:</strong> ${dataDep} <strong>Code Pattern:</strong> ${codePattern} <strong>Repetition:</strong> ${repetition}</p>
+            <p style="color: #7f8c8d; margin-bottom: 10px;">Here's a list of examples to pick from:</p>
             <ul style="list-style: none; padding: 0; color: #34495e;">
-                <li><strong>Data Dependency:</strong> ${dataDep}</li>
-                <li><strong>Code Pattern:</strong> ${codePattern}</li>
-                <li><strong>Repetition:</strong> ${repetition}</li>
+                 ${suggestions}
             </ul>
-            <p style="color: #7f8c8d; margin-top: 20px;">Contact us for more information or to add code examples. Thank you!</p>
+            <p style="color: #7f8c8d; margin-top: 20px;">Or contact us for more information or to propose new code examples. Thank you!</p>
         </div>
     `;
 
@@ -275,8 +295,7 @@ function displayErrorDataLoading() {
     messageContent.className = 'tab-content active';
     messageContent.innerHTML = `
         <div style="padding: 40px; text-align: center;">
-            <h3 style="color: #e74c3c; margin-bottom: 20px;">Oups ... </h3>
-            <p style="color: #7f8c8d; margin-bottom: 10px;">The examples data did not load.</p>
+            <h3 style="color: #e74c3c; margin-bottom: 20px;">Oups ... The code examples data did not load.</h3>
             <p style="color: #7f8c8d; margin-top: 20px;">Contact us to report this issue. Thank you!</p>
         </div>
     `;
@@ -299,8 +318,7 @@ function displaySuccessDataLoading() {
     messageContent.className = 'tab-content active';
     messageContent.innerHTML = `
         <div style="padding: 40px; text-align: center;">
-            <h3 style="color: #e74c3c; margin-bottom: 20px;">Yay ... </h3>
-            <p style="color: #7f8c8d; margin-bottom: 10px;">The examples data has been loaded.</p>
+            <h3 style="color: #e74c3c; margin-bottom: 20px;">The code examples data has been loaded.</h3>
             <p style="color: #7f8c8d; margin-top: 20px;">Make your selections and click Show Example(s) to see an example corresponding to your selections.</p>
         </div>
     `;

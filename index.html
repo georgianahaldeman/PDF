@@ -33,41 +33,8 @@
             </div>
         </header>
         <!-- Pattern Guide Section -->
-        <div class="pattern-guide-section">
-            <!-- <h3 style="margin-bottom: 24px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Understanding Code Structuring Patterns</h3> -->
-            <p>In this paper, we formalize the structuring of procedural programs as a combination of features along three dimentions that drive the complexity (and difficulty) of the refactoring. This website offers an interactive tool to explore the proposed framework with examples for different feature combinations. First, here is a brief summary of the three dimentions of the framework and their corresponding features. For more details refer to the paper.</p>
-            <div class="pattern-guide-grid">
-                <div class="pattern-guide-item">
-                    <h4>Repetition</h4>
-                    <p>Describes how similar logic appears in code:</p>
-                    <ul>
-                        <li><strong>None:</strong> Each operation is unique with no duplication</li>
-                        <li><strong>Identical:</strong> Exact same logic repeated multiple times</li>
-                        <li><strong>Variable Included:</strong> Similar logic with parameter variations</li>
-                        <li><strong>Variable Scaled:</strong> Same pattern applied at different scales/magnitudes</li>
-                    </ul>
-                </div>
-                <div class="pattern-guide-item">
-                    <h4>Code Pattern</h4>
-                    <p>Describes the structural organization of code:</p>
-                    <ul>
-                        <li><strong>None:</strong> Single unified code block with no separation</li>
-                        <li><strong>Concatenation:</strong> Distinct operations placed one after another</li>
-                        <li><strong>Inclusion:</strong> One operation wraps or contains another</li>
-                        <li><strong>Interleaved:</strong> Operations merge or alternate within same structure</li>
-                    </ul>
-                </div>
-                <div class="pattern-guide-item">
-                    <h4>Data Dependency</h4>
-                    <p>Describes how operations relate through data flow:</p>
-                    <ul>
-                        <li><strong>None:</strong> Operations work independently with no data sharing</li>
-                        <li><strong>Sequential:</strong> Output of one operation feeds into the next</li>
-                        <li><strong>Non-sequential:</strong> Operations process same data but produce separate outputs</li>
-                        <li><strong>Shared:</strong> Multiple operations need common computed values (like min/max)</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="overview-section">
+            <p>In this paper (arvix link to be added), we formalize the structuring of procedural programs as a combination of features along three dimentions that drive the complexity (and difficulty) of the refactoring. This website offers an interactive tool to explore the proposed framework with examples for different feature combinations. On the bottom of this page, there is a brief summary of the three dimentions of the framework and their corresponding features. For more details refer to the paper.</p>
         </div>
         <!-- Controls -->
         <div class="controls-section">
@@ -189,6 +156,47 @@
 
         </div>
 
+
+        <!-- Pattern Guide Section -->
+        <div class="pattern-guide-section">
+            <h3 style="margin-bottom: 24px; color: #000; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">Code Structuring Dimensions</h3>
+            <div class="pattern-guide-grid">
+                <div class="pattern-guide-item">
+                    <h4>Repetition</h4>
+                    <p>Describes how similar logic appears in code:</p>
+                    <ul>
+                        <li><strong>None:</strong> Each operation is unique with no duplication</li>
+                        <li><strong>Identical:</strong> Identical code repeated multiple times</li>
+                        <li><strong>Variable Included:</strong> Similar code with parameter variations</li>
+                        <li><strong>Variable Scaled:</strong> Similar code that scales with parameter variations</li>
+                    </ul>
+                </div>
+                <div class="pattern-guide-item">
+                    <h4>Code Pattern</h4>
+                    <p>Describes the structural organization of code:</p>
+                    <ul>
+                        <li><strong>None:</strong> Single code pattern (block of code with specific functionality)</li>
+                        <li><strong>Concatenation:</strong> Multiple code patterns in a sequential order</li>
+                        <li><strong>Inclusion:</strong> One code pattern wraps or contains another</li>
+                        <li><strong>Interleaved:</strong> Code patterns merge or alternate within same code structure</li>
+                    </ul>
+                </div>
+                <div class="pattern-guide-item">
+                    <h4>Data Dependency</h4>
+                    <p>Describes how operations relate through data flow:</p>
+                    <ul>
+                        <li><strong>None:</strong> No variables shared between different code structures</li>
+                        <li><strong>Sequential:</strong> Variables from a code structure feed into the next</li>
+                        <li><strong>Non-sequential:</strong> Variables from multiple code structures sink into one code structure</li>
+                        <li><strong>Shared:</strong> Variables from one code pattern feed into multiple code patterns</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="acknowledgement">
+            <p style="margin-top: 24px; color: #000; font-size: 14px; font-weight: 600; letter-spacing: -0.02em; text-align: center;">This website was developed with the help of Colgate University student <a href="https://github.com/raghavrajsah">Raghav Raj Sah</a>, graduating class of 2026.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
